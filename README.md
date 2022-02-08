@@ -16,3 +16,15 @@ docker compose up -d --build
 ```
 
 e o subirá o ambiente de desenvolvimento junto com o banco de dados mysql
+
+## Testes Unitarios
+
+Para rodar os testes unitarios digite o comando:
+```
+yarn test
+```
+
+E para ver o coverage:
+```
+yarn test:cov
+```
