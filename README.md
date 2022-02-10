@@ -7,7 +7,11 @@ Ter o Docker e Docker Compose instalados
 
 ## Configurando ambiente
 
-Normalmente teriamos que configurar o .env porém como esse projeto é somente um teste resolvi deixar o .env ja montado por questão de facilidade então, tendo o .env ja configurado rode o comando:
+  
+
+Normalmente teríamos que configurar o .env porém como esse projeto é somente um teste resolvi deixar o .env já montado por questão de facilidade então, tendo o .env já configurado rode o comando:
+
+  
 
 ```
 
@@ -17,9 +21,11 @@ docker compose up -d --build
 
 e o subirá o ambiente de desenvolvimento junto com o banco de dados mysql
 
-## Testes Unitarios
 
-Para rodar os testes unitarios digite o comando:
+## Testes Unitários 
+
+Para rodar os testes unitários digite o comando:
+
 ```
 yarn test
 ```
@@ -28,3 +34,7 @@ E para ver o coverage:
 ```
 yarn test:cov
 ```
+
+## Postman
+
+Para testar a aplicação, após configurar e subir o docker, importe o arquivo "Desafio Backend.postman_collection.json" no seu postman onde tem todos os endpoints disponíveis

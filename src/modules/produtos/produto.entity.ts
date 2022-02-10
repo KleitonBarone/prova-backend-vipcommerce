@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { ProdutoToPedido } from '../pedidos/produtoToPedido.entity';
 
 @Entity()
 export class Produto {
@@ -16,4 +17,10 @@ export class Produto {
 
   @Column('int')
   valor: number;
+
+  @OneToMany(
+    () => ProdutoToPedido,
+    (produtoToPedido) => produtoToPedido.produto,
+  )
+  public produtoToPedido?: ProdutoToPedido[];
 }

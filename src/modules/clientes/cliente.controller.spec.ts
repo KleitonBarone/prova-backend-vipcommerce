@@ -1,10 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Cliente } from './cliente.entity';
 import { ClienteService } from './cliente.service';
-import { Repository, Connection } from 'typeorm';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { mockClienteDTO, mockClienteUpdateDTO, mockCreatedCliente, mockDeletedResult, mockFindAll, mockFindOne } from './cliente.mock';
-import { DatabaseModule } from '../../database/database.module';
+import {
+  mockClienteDTO,
+  mockClienteUpdateDTO,
+  mockCreatedCliente,
+  mockDeletedResult,
+  mockFindAll,
+  mockFindOne,
+} from './cliente.mock';
 import { ClienteController } from './cliente.controller';
 
 describe('ClienteController', () => {

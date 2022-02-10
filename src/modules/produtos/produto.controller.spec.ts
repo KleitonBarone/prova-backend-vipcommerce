@@ -1,8 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Produto } from './produto.entity';
 import { ProdutoService } from './produto.service';
-import { Repository, Connection } from 'typeorm';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import {
   mockProdutoDTO,
   mockProdutoUpdateDTO,
@@ -11,7 +8,6 @@ import {
   mockFindAll,
   mockFindOne,
 } from './produto.mock';
-import { DatabaseModule } from '../../database/database.module';
 import { ProdutoController } from './produto.controller';
 
 describe('ProdutoController', () => {
