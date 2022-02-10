@@ -10,13 +10,12 @@ module.exports = {
       lines: 80,
     },
   },
-  rootDir: 'src',
   testRegex: '.*\\.spec\\.ts$',
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
   collectCoverageFrom: [
-    'src/**/*.service.{js,ts}',
+    'src/**/*.controller.{js,ts}',
     '!**/node_modules/**',
     '!**/dist/**',
   ],
