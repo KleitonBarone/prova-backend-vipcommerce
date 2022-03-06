@@ -22,7 +22,7 @@ export class PedidoController {
 
   @Get(':id')
   async readPedido(@Param('id') id: number): Promise<Pedido> {
-    const result = await this.pedidoService.read(id);
+    const result = await this.pedidoService.find(id);
     return result;
   }
 
@@ -43,7 +43,7 @@ export class PedidoController {
 
   @Delete(':id')
   async deletePedido(@Param('id') id: number) {
-    const result = await this.pedidoService.destroy(id);
+    const result = await this.pedidoService.delete(id);
     return result;
   }
 }

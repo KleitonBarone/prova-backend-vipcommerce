@@ -22,7 +22,7 @@ export class ProdutoController {
 
   @Get(':id')
   async readProduto(@Param('id') id: number): Promise<Produto> {
-    const result = await this.produtoService.read(id);
+    const result = await this.produtoService.find(id);
     return result;
   }
 
@@ -43,7 +43,7 @@ export class ProdutoController {
 
   @Delete(':id')
   async deleteProduto(@Param('id') id: number) {
-    const result = await this.produtoService.destroy(id);
+    const result = await this.produtoService.delete(id);
     return result;
   }
 }

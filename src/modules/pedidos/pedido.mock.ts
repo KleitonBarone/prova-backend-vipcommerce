@@ -93,3 +93,12 @@ export const mockCreatedPedido: Pedido = {
 export const mockDeletedResult = {
   deleted: true,
 };
+
+export const mockPedidoRepository = {
+  find: () => mockFindAll,
+  findOne: () => mockFindOne,
+  create: () => mockCreatedPedido,
+  save: () => mockCreatedPedido,
+  update: () => mockFindOne,
+  delete: () => mockDeletedResult,
+};

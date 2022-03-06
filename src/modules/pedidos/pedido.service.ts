@@ -53,7 +53,7 @@ export class PedidoService {
     return produtos;
   }
 
-  async read(codigo_pedido: number) {
+  async find(codigo_pedido: number) {
     return await this.pedidoRepository.findOne({
       where: { codigo_pedido: codigo_pedido },
       relations: ['cliente', 'produtoToPedido'],
@@ -75,7 +75,7 @@ export class PedidoService {
     });
   }
 
-  async destroy(codigo_pedido: number) {
+  async delete(codigo_pedido: number) {
     await this.pedidoRepository.delete({ codigo_pedido });
     return { deleted: true };
   }

@@ -22,7 +22,7 @@ export class ClienteController {
 
   @Get(':id')
   async readCliente(@Param('id') id: number): Promise<Cliente> {
-    const result = await this.clienteService.read(id);
+    const result = await this.clienteService.find(id);
     return result;
   }
 
@@ -43,7 +43,7 @@ export class ClienteController {
 
   @Delete(':id')
   async deleteCliente(@Param('id') id: number) {
-    const result = await this.clienteService.destroy(id);
+    const result = await this.clienteService.delete(id);
     return result;
   }
 }
