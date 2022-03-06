@@ -52,3 +52,12 @@ export const mockCreatedCliente: Cliente = {
 export const mockDeletedResult = {
   deleted: true,
 };
+
+export const mockClienteRepository = {
+  find: () => mockFindAll,
+  findOne: () => mockFindOne,
+  create: () => mockCreatedCliente,
+  save: () => mockCreatedCliente,
+  update: () => mockFindOne,
+  delete: () => mockDeletedResult,
+};

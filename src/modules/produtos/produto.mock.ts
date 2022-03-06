@@ -52,3 +52,12 @@ export const mockCreatedProduto: Produto = {
 export const mockDeletedResult = {
   deleted: true,
 };
+
+export const mockProdutoRepository = {
+  find: () => mockFindAll,
+  findOne: () => mockFindOne,
+  create: () => mockCreatedProduto,
+  save: () => mockCreatedProduto,
+  update: () => mockFindOne,
+  delete: () => mockDeletedResult,
+};

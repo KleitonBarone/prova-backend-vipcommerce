@@ -20,7 +20,7 @@ export class ProdutoService {
     return user;
   }
 
-  async read(codigo_produto: number) {
+  async find(codigo_produto: number) {
     return await this.produtoRepository.findOne({
       where: { codigo_produto: codigo_produto },
     });
@@ -31,7 +31,7 @@ export class ProdutoService {
     return await this.produtoRepository.findOne({ codigo_produto });
   }
 
-  async destroy(codigo_produto: number) {
+  async delete(codigo_produto: number) {
     await this.produtoRepository.delete({ codigo_produto });
     return { deleted: true };
   }

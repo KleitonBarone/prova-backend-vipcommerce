@@ -20,7 +20,7 @@ export class ClienteService {
     return user;
   }
 
-  async read(codigo_cliente: number) {
+  async find(codigo_cliente: number) {
     return await this.clienteRepository.findOne({
       where: { codigo_cliente: codigo_cliente },
     });
@@ -31,7 +31,7 @@ export class ClienteService {
     return await this.clienteRepository.findOne({ codigo_cliente });
   }
 
-  async destroy(codigo_cliente: number) {
+  async delete(codigo_cliente: number) {
     await this.clienteRepository.delete({ codigo_cliente });
     return { deleted: true };
   }
