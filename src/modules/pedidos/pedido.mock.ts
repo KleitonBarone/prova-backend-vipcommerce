@@ -1,4 +1,4 @@
-import { PedidoDTO } from './pedido.dto';
+import { CreatePedidoDTO, UpdatePedidoDTO } from './pedido.dto';
 import { Pedido } from './pedido.entity';
 
 export const mockFindAll: Pedido[] = [
@@ -47,7 +47,7 @@ export const mockFindOne: Pedido = {
   ],
 };
 
-export const mockPedidoDTO: PedidoDTO = {
+export const mockPedidoDTO: CreatePedidoDTO = {
   codigo_pedido: 1,
   data: '10/02/2022',
   observacao: 'teste',
@@ -61,7 +61,7 @@ export const mockPedidoDTO: PedidoDTO = {
   ],
 };
 
-export const mockPedidoUpdateDTO: Partial<PedidoDTO> = {
+export const mockPedidoUpdateDTO: UpdatePedidoDTO = {
   data: '10/02/2022',
   observacao: 'teste',
   forma_pagamento: 'dinheiro',

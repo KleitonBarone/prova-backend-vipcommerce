@@ -1,4 +1,4 @@
-import { ClienteDTO } from './cliente.dto';
+import { CreateClienteDTO, UpdateClienteDTO } from './cliente.dto';
 import { Cliente } from './cliente.entity';
 
 export const mockFindAll: Cliente[] = [
@@ -26,7 +26,7 @@ export const mockFindOne: Cliente = {
   email: 'teste1@teste.com',
 };
 
-export const mockClienteDTO: ClienteDTO = {
+export const mockClienteDTO: CreateClienteDTO = {
   codigo_cliente: 1,
   nome: 'Teste1',
   cpf: '12345678909',
@@ -34,7 +34,7 @@ export const mockClienteDTO: ClienteDTO = {
   email: 'teste1@teste.com',
 };
 
-export const mockClienteUpdateDTO: Partial<ClienteDTO> = {
+export const mockClienteUpdateDTO: UpdateClienteDTO = {
   nome: 'Teste1',
   cpf: '12345678909',
   sexo: 'masculino',

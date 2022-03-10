@@ -38,3 +38,7 @@ yarn test:cov
 ## Postman
 
 Para testar a aplicação, após configurar e subir o docker, importe o arquivo "Desafio Backend.postman_collection.json" no seu postman onde tem todos os endpoints disponíveis
+
+## Open API (Swagger)
+
+Ao Rodar a Aplicação a rota "/api" é onde fica disponível a documentação Open API (Swagger) do Projeto

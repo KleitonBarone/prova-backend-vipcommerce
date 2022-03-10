@@ -2,7 +2,11 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Cliente } from '../clientes/cliente.entity';
 import { Produto } from '../produtos/produto.entity';
-import { PedidoDTO, ProdutoPedidoDTO } from './pedido.dto';
+import {
+  CreatePedidoDTO,
+  ProdutoPedidoDTO,
+  UpdatePedidoDTO,
+} from './pedido.dto';
 import { Pedido } from './pedido.entity';
 import { ProdutoToPedido } from './produtoToPedido.entity';
 
@@ -23,7 +27,7 @@ export class PedidoService {
     });
   }
 
-  async create(data: PedidoDTO) {
+  async create(data: CreatePedidoDTO) {
     const cliente = await this.clienteRepository.findOne({
       where: { codigo_cliente: data.codigo_cliente },
     });
@@ -36,7 +40,7 @@ export class PedidoService {
     return user;
   }
 
-  async parseProducts(data: PedidoDTO | Partial<PedidoDTO>) {
+  async parseProducts(data: CreatePedidoDTO) {
     const produtosDTO: ProdutoPedidoDTO[] = data.produtos;
     const produtos: ProdutoToPedido[] = [];
     for (const dto of produtosDTO) {
@@ -60,14 +64,12 @@ export class PedidoService {
     });
   }
 
-  async update(codigo_pedido: number, data: Partial<PedidoDTO>) {
+  async update(codigo_pedido: number, data: UpdatePedidoDTO) {
     const cliente = await this.clienteRepository.findOne({
       where: { codigo_cliente: data.codigo_cliente },
     });
     delete data.produtos;
-    delete data.codigo_cliente;
     const pedidoData = { ...data, cliente };
-    delete pedidoData.codigo_pedido;
     await this.pedidoRepository.update({ codigo_pedido }, pedidoData);
     return await this.pedidoRepository.findOne({
       where: { codigo_pedido: codigo_pedido },
