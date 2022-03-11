@@ -1,17 +1,18 @@
-import { HttpStatus } from '@nestjs/common';
 import { Body } from '@nestjs/common';
 import { Post } from '@nestjs/common';
 import { Put } from '@nestjs/common';
 import { Delete } from '@nestjs/common';
 import { Param } from '@nestjs/common';
-import { Controller, Get, Inject, Res } from '@nestjs/common';
+import { Controller, Get, Inject } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiBody,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { IdParams } from 'src/util/util.dto';
 import { CreateClienteDTO, UpdateClienteDTO } from './cliente.dto';
 import { Cliente } from './cliente.entity';
 import { ClienteService } from './cliente.service';
@@ -32,13 +33,15 @@ export class ClienteController {
   @Get(':id')
   @ApiOkResponse({ description: 'Got One Cliente' })
   @ApiNotFoundResponse({ description: 'Cliente Not Found' })
-  async readCliente(@Param('id') id: number): Promise<Cliente> {
-    const result = await this.clienteService.find(id);
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  async readCliente(@Param() params: IdParams): Promise<Cliente> {
+    const result = await this.clienteService.find(params.id);
     return result;
   }
 
   @Post()
   @ApiCreatedResponse({ description: 'Created Cliente' })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiBody({ type: CreateClienteDTO })
   async createCliente(@Body() data: CreateClienteDTO): Promise<Cliente> {
     const result = await this.clienteService.create(data);
@@ -48,20 +51,22 @@ export class ClienteController {
   @Put(':id')
   @ApiOkResponse({ description: 'Updated Cliente' })
   @ApiNotFoundResponse({ description: 'Cliente Not Found' })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiBody({ type: UpdateClienteDTO })
   async updateCliente(
-    @Param('id') id: number,
-    @Body() data: Partial<UpdateClienteDTO>,
+    @Param() params: IdParams,
+    @Body() data: UpdateClienteDTO,
   ) {
-    const result = await this.clienteService.update(id, data);
+    const result = await this.clienteService.update(params.id, data);
     return result;
   }
 
   @Delete(':id')
   @ApiOkResponse({ description: 'Deleted Cliente' })
   @ApiNotFoundResponse({ description: 'Cliente Not Found' })
-  async deleteCliente(@Param('id') id: number) {
-    const result = await this.clienteService.delete(id);
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  async deleteCliente(@Param() params: IdParams) {
+    const result = await this.clienteService.delete(params.id);
     return result;
   }
 }
