@@ -4,25 +4,18 @@ import { Produto } from '../produtos/produto.entity';
 
 @Entity()
 export class ProdutoToPedido {
-  @PrimaryGeneratedColumn()
-  public produtoToPedidoId!: number;
-
-  @Column()
-  public produtoId!: number;
-
-  @Column()
-  public pedidoId!: number;
-
   @Column()
   qtd!: number;
 
-  @ManyToOne(() => Pedido, (pedido) => pedido.produtoToPedido, {
+  @ManyToOne(() => Pedido, (pedido) => pedido.produtos, {
     onDelete: 'CASCADE',
+    primary: true,
   })
   pedido?: Pedido;
 
-  @ManyToOne(() => Produto, (produto) => produto.produtoToPedido, {
+  @ManyToOne(() => Produto, (produto) => produto.pedidos, {
     cascade: true,
+    primary: true,
   })
   produto?: Produto;
 }

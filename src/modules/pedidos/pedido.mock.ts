@@ -14,12 +14,16 @@ export const mockFindAll: Pedido[] = [
       sexo: 'masculino',
       email: 'teste1@teste.com',
     },
-    produtoToPedido: [
+    produtos: [
       {
-        produtoToPedidoId: 2,
-        produtoId: 1,
-        pedidoId: 1,
         qtd: 3,
+        produto: {
+          codigo_produto: 1,
+          nome: 'teste1',
+          cor: 'teste1',
+          tamanho: 'teste1',
+          valor: 10,
+        },
       },
     ],
   },
@@ -37,12 +41,16 @@ export const mockFindOne: Pedido = {
     sexo: 'masculino',
     email: 'teste1@teste.com',
   },
-  produtoToPedido: [
+  produtos: [
     {
-      produtoToPedidoId: 2,
-      produtoId: 1,
-      pedidoId: 1,
       qtd: 3,
+      produto: {
+        codigo_produto: 1,
+        nome: 'teste1',
+        cor: 'teste1',
+        tamanho: 'teste1',
+        valor: 10,
+      },
     },
   ],
 };
@@ -80,12 +88,16 @@ export const mockCreatedPedido: Pedido = {
     sexo: 'masculino',
     email: 'teste1@teste.com',
   },
-  produtoToPedido: [
+  produtos: [
     {
-      produtoToPedidoId: 2,
-      produtoId: 1,
-      pedidoId: 1,
       qtd: 3,
+      produto: {
+        codigo_produto: 1,
+        nome: 'teste1',
+        cor: 'teste1',
+        tamanho: 'teste1',
+        valor: 10,
+      },
     },
   ],
 };
