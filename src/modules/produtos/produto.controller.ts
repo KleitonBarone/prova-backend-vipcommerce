@@ -11,8 +11,9 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
+  ApiParam,
 } from '@nestjs/swagger';
-import { IdParams } from 'src/util/util.dto';
+import { IdParams } from '../../util/util.dto';
 import { CreateProdutoDTO, UpdateProdutoDTO } from './produto.dto';
 import { Produto } from './produto.entity';
 import { ProdutoService } from './produto.service';
@@ -34,6 +35,7 @@ export class ProdutoController {
   @ApiOkResponse({ description: 'Got One Produto' })
   @ApiNotFoundResponse({ description: 'Produto Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiParam({ name: 'id', type: Number })
   async readProduto(@Param() params: IdParams): Promise<Produto> {
     const result = await this.produtoService.find(params.id);
     return result;
@@ -52,6 +54,7 @@ export class ProdutoController {
   @ApiOkResponse({ description: 'Updated Produto' })
   @ApiNotFoundResponse({ description: 'Produto Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiParam({ name: 'id', type: Number })
   @ApiBody({ type: UpdateProdutoDTO })
   async updateProduto(
     @Param() params: IdParams,
@@ -65,6 +68,7 @@ export class ProdutoController {
   @ApiOkResponse({ description: 'Deleted Produto' })
   @ApiNotFoundResponse({ description: 'Produto Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiParam({ name: 'id', type: Number })
   async deleteProduto(@Param() params: IdParams) {
     const result = await this.produtoService.delete(params.id);
     return result;

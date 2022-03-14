@@ -22,5 +22,5 @@ export class Produto {
     () => ProdutoToPedido,
     (produtoToPedido) => produtoToPedido.produto,
   )
-  public produtoToPedido?: ProdutoToPedido[];
+  pedidos?: ProdutoToPedido[];
 }

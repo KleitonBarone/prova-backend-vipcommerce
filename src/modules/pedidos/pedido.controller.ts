@@ -11,8 +11,9 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
+  ApiParam,
 } from '@nestjs/swagger';
-import { IdParams } from 'src/util/util.dto';
+import { IdParams } from '../../util/util.dto';
 import { CreatePedidoDTO, UpdatePedidoDTO } from './pedido.dto';
 import { Pedido } from './pedido.entity';
 import { PedidoService } from './pedido.service';
@@ -34,6 +35,7 @@ export class PedidoController {
   @ApiOkResponse({ description: 'Got One Pedido' })
   @ApiNotFoundResponse({ description: 'Pedido Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiParam({ name: 'id', type: Number })
   async readPedido(@Param() params: IdParams): Promise<Pedido> {
     const result = await this.pedidoService.find(params.id);
     return result;
@@ -52,6 +54,7 @@ export class PedidoController {
   @ApiOkResponse({ description: 'Updated Pedido' })
   @ApiNotFoundResponse({ description: 'Pedido Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiParam({ name: 'id', type: Number })
   @ApiBody({ type: UpdatePedidoDTO })
   async updatePedido(@Param() params: IdParams, @Body() data: UpdatePedidoDTO) {
     const result = await this.pedidoService.update(params.id, data);
@@ -62,6 +65,7 @@ export class PedidoController {
   @ApiOkResponse({ description: 'Deleted Pedido' })
   @ApiNotFoundResponse({ description: 'Pedido Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiParam({ name: 'id', type: Number })
   async deletePedido(@Param() params: IdParams) {
     const result = await this.pedidoService.delete(params.id);
     return result;

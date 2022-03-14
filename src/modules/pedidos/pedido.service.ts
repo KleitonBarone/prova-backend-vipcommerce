@@ -23,7 +23,7 @@ export class PedidoService {
 
   async findAll(): Promise<Pedido[]> {
     return this.pedidoRepository.find({
-      relations: ['cliente', 'produtoToPedido'],
+      relations: ['cliente', 'produtos', 'produtos.produto'],
     });
   }
 
@@ -31,27 +31,25 @@ export class PedidoService {
     const cliente = await this.clienteRepository.findOne({
       where: { codigo_cliente: data.codigo_cliente },
     });
-    const produtos = await this.parseProducts(data);
+    const produtos = data.produtos;
     delete data.produtos;
     delete data.codigo_cliente;
-    const pedidoData = { ...data, cliente, produtoToPedido: produtos };
-    const user = this.pedidoRepository.create(pedidoData);
-    await this.pedidoRepository.save(pedidoData);
-    return user;
+    const pedidoData = { ...data, cliente };
+    const pedido = this.pedidoRepository.create(pedidoData);
+    pedido.produtos = await this.parseProducts(produtos);
+    await this.pedidoRepository.save(pedido);
+    return pedido;
   }
 
-  async parseProducts(data: CreatePedidoDTO) {
-    const produtosDTO: ProdutoPedidoDTO[] = data.produtos;
+  async parseProducts(produtosDTO: ProdutoPedidoDTO[]) {
     const produtos: ProdutoToPedido[] = [];
-    for (const dto of produtosDTO) {
+    for (const produtoDTO of produtosDTO) {
       const produto = new ProdutoToPedido();
-      produto.pedidoId = data.codigo_pedido;
-      produto.produtoId = dto.codigo_produto;
       const produtoData = await this.produtoRepository.findOne({
-        where: { codigo_produto: dto.codigo_produto },
+        where: { codigo_produto: produtoDTO.codigo_produto },
       });
       produto.produto = produtoData;
-      produto.qtd = dto.qtd;
+      produto.qtd = produtoDTO.qtd;
       produtos.push(produto);
     }
     return produtos;
