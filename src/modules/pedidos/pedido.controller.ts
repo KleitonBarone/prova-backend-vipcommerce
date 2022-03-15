@@ -13,6 +13,8 @@ import {
   ApiTags,
   ApiParam,
 } from '@nestjs/swagger';
+import { ApiError } from 'src/util/api-error.model';
+import { DeletedModel } from 'src/util/delete.model';
 import { IdParams } from '../../util/util.dto';
 import { CreatePedidoDTO, UpdatePedidoDTO } from './pedido.dto';
 import { Pedido } from './pedido.entity';
@@ -26,7 +28,7 @@ export class PedidoController {
 
   @Get()
   @ApiOkResponse({ description: 'Got All Pedidos' })
-  async findAll(): Promise<Pedido[]> {
+  async findAll(): Promise<Pedido[] | ApiError> {
     const result = await this.pedidoService.findAll();
     return result;
   }
@@ -36,7 +38,7 @@ export class PedidoController {
   @ApiNotFoundResponse({ description: 'Pedido Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiParam({ name: 'id', type: Number })
-  async readPedido(@Param() params: IdParams): Promise<Pedido> {
+  async readPedido(@Param() params: IdParams): Promise<Pedido | ApiError> {
     const result = await this.pedidoService.find(params.id);
     return result;
   }
@@ -45,7 +47,9 @@ export class PedidoController {
   @ApiCreatedResponse({ description: 'Created Pedido' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiBody({ type: CreatePedidoDTO })
-  async createPedido(@Body() data: CreatePedidoDTO): Promise<Pedido> {
+  async createPedido(
+    @Body() data: CreatePedidoDTO,
+  ): Promise<Pedido | ApiError> {
     const result = await this.pedidoService.create(data);
     return result;
   }
@@ -56,7 +60,10 @@ export class PedidoController {
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiParam({ name: 'id', type: Number })
   @ApiBody({ type: UpdatePedidoDTO })
-  async updatePedido(@Param() params: IdParams, @Body() data: UpdatePedidoDTO) {
+  async updatePedido(
+    @Param() params: IdParams,
+    @Body() data: UpdatePedidoDTO,
+  ): Promise<Pedido | ApiError> {
     const result = await this.pedidoService.update(params.id, data);
     return result;
   }
@@ -66,7 +73,9 @@ export class PedidoController {
   @ApiNotFoundResponse({ description: 'Pedido Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiParam({ name: 'id', type: Number })
-  async deletePedido(@Param() params: IdParams) {
+  async deletePedido(
+    @Param() params: IdParams,
+  ): Promise<DeletedModel | ApiError> {
     const result = await this.pedidoService.delete(params.id);
     return result;
   }

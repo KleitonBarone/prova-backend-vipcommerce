@@ -13,6 +13,8 @@ import {
   ApiTags,
   ApiParam,
 } from '@nestjs/swagger';
+import { ApiError } from 'src/util/api-error.model';
+import { DeletedModel } from 'src/util/delete.model';
 import { IdParams } from '../../util/util.dto';
 import { CreateClienteDTO, UpdateClienteDTO } from './cliente.dto';
 import { Cliente } from './cliente.entity';
@@ -26,7 +28,7 @@ export class ClienteController {
 
   @Get()
   @ApiOkResponse({ description: 'Got All Clientes' })
-  async findAll(): Promise<Cliente[]> {
+  async findAll(): Promise<Cliente[] | ApiError> {
     const result = await this.clienteService.findAll();
     return result;
   }
@@ -36,7 +38,7 @@ export class ClienteController {
   @ApiNotFoundResponse({ description: 'Cliente Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiParam({ name: 'id', type: Number })
-  async readCliente(@Param() params: IdParams): Promise<Cliente> {
+  async readCliente(@Param() params: IdParams): Promise<Cliente | ApiError> {
     const result = await this.clienteService.find(params.id);
     return result;
   }
@@ -45,7 +47,9 @@ export class ClienteController {
   @ApiCreatedResponse({ description: 'Created Cliente' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiBody({ type: CreateClienteDTO })
-  async createCliente(@Body() data: CreateClienteDTO): Promise<Cliente> {
+  async createCliente(
+    @Body() data: CreateClienteDTO,
+  ): Promise<Cliente | ApiError> {
     const result = await this.clienteService.create(data);
     return result;
   }
@@ -59,7 +63,7 @@ export class ClienteController {
   async updateCliente(
     @Param() params: IdParams,
     @Body() data: UpdateClienteDTO,
-  ) {
+  ): Promise<Cliente | ApiError> {
     const result = await this.clienteService.update(params.id, data);
     return result;
   }
@@ -69,7 +73,9 @@ export class ClienteController {
   @ApiNotFoundResponse({ description: 'Cliente Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiParam({ name: 'id', type: Number })
-  async deleteCliente(@Param() params: IdParams) {
+  async deleteCliente(
+    @Param() params: IdParams,
+  ): Promise<DeletedModel | ApiError> {
     const result = await this.clienteService.delete(params.id);
     return result;
   }
