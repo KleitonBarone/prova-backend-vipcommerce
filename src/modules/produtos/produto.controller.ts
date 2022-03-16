@@ -13,6 +13,8 @@ import {
   ApiTags,
   ApiParam,
 } from '@nestjs/swagger';
+import { ApiError } from 'src/util/api-error.model';
+import { DeletedModel } from 'src/util/delete.model';
 import { IdParams } from '../../util/util.dto';
 import { CreateProdutoDTO, UpdateProdutoDTO } from './produto.dto';
 import { Produto } from './produto.entity';
@@ -26,7 +28,7 @@ export class ProdutoController {
 
   @Get()
   @ApiOkResponse({ description: 'Got All Produtos' })
-  async findAll(): Promise<Produto[]> {
+  async findAll(): Promise<Produto[] | ApiError> {
     const result = await this.produtoService.findAll();
     return result;
   }
@@ -36,7 +38,7 @@ export class ProdutoController {
   @ApiNotFoundResponse({ description: 'Produto Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiParam({ name: 'id', type: Number })
-  async readProduto(@Param() params: IdParams): Promise<Produto> {
+  async readProduto(@Param() params: IdParams): Promise<Produto | ApiError> {
     const result = await this.produtoService.find(params.id);
     return result;
   }
@@ -45,7 +47,9 @@ export class ProdutoController {
   @ApiCreatedResponse({ description: 'Created Produto' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiBody({ type: CreateProdutoDTO })
-  async createProduto(@Body() data: CreateProdutoDTO): Promise<Produto> {
+  async createProduto(
+    @Body() data: CreateProdutoDTO,
+  ): Promise<Produto | ApiError> {
     const result = await this.produtoService.create(data);
     return result;
   }
@@ -59,7 +63,7 @@ export class ProdutoController {
   async updateProduto(
     @Param() params: IdParams,
     @Body() data: UpdateProdutoDTO,
-  ) {
+  ): Promise<Produto | ApiError> {
     const result = await this.produtoService.update(params.id, data);
     return result;
   }
@@ -69,7 +73,9 @@ export class ProdutoController {
   @ApiNotFoundResponse({ description: 'Produto Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiParam({ name: 'id', type: Number })
-  async deleteProduto(@Param() params: IdParams) {
+  async deleteProduto(
+    @Param() params: IdParams,
+  ): Promise<DeletedModel | ApiError> {
     const result = await this.produtoService.delete(params.id);
     return result;
   }

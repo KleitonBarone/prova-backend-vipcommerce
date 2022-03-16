@@ -1,5 +1,7 @@
 
-# Prova Backend do VipCommerce
+# API Rest Pedidos Produtos Clientes
+
+Utilizado Framework Nestjs com Typescript para montagem da api e typeorm com mysql para armazenamento de dados
 
 ## Requisitos
 
@@ -34,10 +36,6 @@ E para ver o coverage:
 ```
 yarn test:cov
 ```
-
-## Postman
-
-Para testar a aplicação, após configurar e subir o docker, importe o arquivo "Desafio Backend.postman_collection.json" no seu postman onde tem todos os endpoints disponíveis
 
 ## Open API (Swagger)
 
