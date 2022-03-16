@@ -2,7 +2,11 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Cliente } from '../clientes/cliente.entity';
 import { Produto } from '../produtos/produto.entity';
-import { PedidoDTO, ProdutoPedidoDTO } from './pedido.dto';
+import {
+  CreatePedidoDTO,
+  ProdutoPedidoDTO,
+  UpdatePedidoDTO,
+} from './pedido.dto';
 import { Pedido } from './pedido.entity';
 import { ProdutoToPedido } from './produtoToPedido.entity';
 
@@ -19,55 +23,51 @@ export class PedidoService {
 
   async findAll(): Promise<Pedido[]> {
     return this.pedidoRepository.find({
-      relations: ['cliente', 'produtoToPedido'],
+      relations: ['cliente', 'produtos', 'produtos.produto'],
     });
   }
 
-  async create(data: PedidoDTO) {
+  async create(data: CreatePedidoDTO) {
     const cliente = await this.clienteRepository.findOne({
       where: { codigo_cliente: data.codigo_cliente },
     });
-    const produtos = await this.parseProducts(data);
+    const produtos = data.produtos;
     delete data.produtos;
     delete data.codigo_cliente;
-    const pedidoData = { ...data, cliente, produtoToPedido: produtos };
-    const user = this.pedidoRepository.create(pedidoData);
-    await this.pedidoRepository.save(pedidoData);
-    return user;
+    const pedidoData = { ...data, cliente };
+    const pedido = this.pedidoRepository.create(pedidoData);
+    pedido.produtos = await this.parseProducts(produtos);
+    await this.pedidoRepository.save(pedido);
+    return pedido;
   }
 
-  async parseProducts(data: PedidoDTO | Partial<PedidoDTO>) {
-    const produtosDTO: ProdutoPedidoDTO[] = data.produtos;
+  async parseProducts(produtosDTO: ProdutoPedidoDTO[]) {
     const produtos: ProdutoToPedido[] = [];
-    for (const dto of produtosDTO) {
+    for (const produtoDTO of produtosDTO) {
       const produto = new ProdutoToPedido();
-      produto.pedidoId = data.codigo_pedido;
-      produto.produtoId = dto.codigo_produto;
       const produtoData = await this.produtoRepository.findOne({
-        where: { codigo_produto: dto.codigo_produto },
+        where: { codigo_produto: produtoDTO.codigo_produto },
       });
       produto.produto = produtoData;
-      produto.qtd = dto.qtd;
+      produto.qtd = produtoDTO.qtd;
       produtos.push(produto);
     }
     return produtos;
   }
 
-  async read(codigo_pedido: number) {
+  async find(codigo_pedido: number) {
     return await this.pedidoRepository.findOne({
       where: { codigo_pedido: codigo_pedido },
       relations: ['cliente', 'produtoToPedido'],
     });
   }
 
-  async update(codigo_pedido: number, data: Partial<PedidoDTO>) {
+  async update(codigo_pedido: number, data: UpdatePedidoDTO) {
     const cliente = await this.clienteRepository.findOne({
       where: { codigo_cliente: data.codigo_cliente },
     });
     delete data.produtos;
-    delete data.codigo_cliente;
     const pedidoData = { ...data, cliente };
-    delete pedidoData.codigo_pedido;
     await this.pedidoRepository.update({ codigo_pedido }, pedidoData);
     return await this.pedidoRepository.findOne({
       where: { codigo_pedido: codigo_pedido },
@@ -75,7 +75,7 @@ export class PedidoService {
     });
   }
 
-  async destroy(codigo_pedido: number) {
+  async delete(codigo_pedido: number) {
     await this.pedidoRepository.delete({ codigo_pedido });
     return { deleted: true };
   }

@@ -15,7 +15,7 @@ module.exports = {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
   collectCoverageFrom: [
-    'src/**/*.controller.{js,ts}',
+    'src/**/*.service.{js,ts}',
     '!**/node_modules/**',
     '!**/dist/**',
   ],

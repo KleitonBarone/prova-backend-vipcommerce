@@ -1,4 +1,4 @@
-import { ProdutoDTO } from './produto.dto';
+import { CreateProdutoDTO, UpdateProdutoDTO } from './produto.dto';
 import { Produto } from './produto.entity';
 
 export const mockFindAll: Produto[] = [
@@ -26,7 +26,7 @@ export const mockFindOne: Produto = {
   valor: 30,
 };
 
-export const mockProdutoDTO: ProdutoDTO = {
+export const mockProdutoDTO: CreateProdutoDTO = {
   codigo_produto: 1,
   nome: 'Teste1',
   cor: 'preto',
@@ -34,7 +34,7 @@ export const mockProdutoDTO: ProdutoDTO = {
   valor: 30,
 };
 
-export const mockProdutoUpdateDTO: Partial<ProdutoDTO> = {
+export const mockProdutoUpdateDTO: UpdateProdutoDTO = {
   nome: 'Teste1',
   cor: 'preto',
   tamanho: 'M',
@@ -51,4 +51,13 @@ export const mockCreatedProduto: Produto = {
 
 export const mockDeletedResult = {
   deleted: true,
+};
+
+export const mockProdutoRepository = {
+  find: () => mockFindAll,
+  findOne: () => mockFindOne,
+  create: () => mockCreatedProduto,
+  save: () => mockCreatedProduto,
+  update: () => mockFindOne,
+  delete: () => mockDeletedResult,
 };

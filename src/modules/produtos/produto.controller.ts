@@ -1,49 +1,82 @@
-import { HttpStatus } from '@nestjs/common';
 import { Body } from '@nestjs/common';
 import { Post } from '@nestjs/common';
 import { Put } from '@nestjs/common';
 import { Delete } from '@nestjs/common';
 import { Param } from '@nestjs/common';
-import { Controller, Get, Inject, Res } from '@nestjs/common';
-import { ProdutoDTO } from './produto.dto';
+import { Controller, Get, Inject } from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiParam,
+} from '@nestjs/swagger';
+import { ApiError } from 'src/util/api-error.model';
+import { DeletedModel } from 'src/util/delete.model';
+import { IdParams } from '../../util/util.dto';
+import { CreateProdutoDTO, UpdateProdutoDTO } from './produto.dto';
 import { Produto } from './produto.entity';
 import { ProdutoService } from './produto.service';
 
+@ApiTags('Produtos')
 @Controller('/produtos')
 export class ProdutoController {
   @Inject(ProdutoService)
   private produtoService: ProdutoService;
 
   @Get()
-  async findAll(): Promise<Produto[]> {
+  @ApiOkResponse({ description: 'Got All Produtos' })
+  async findAll(): Promise<Produto[] | ApiError> {
     const result = await this.produtoService.findAll();
     return result;
   }
 
   @Get(':id')
-  async readProduto(@Param('id') id: number): Promise<Produto> {
-    const result = await this.produtoService.read(id);
+  @ApiOkResponse({ description: 'Got One Produto' })
+  @ApiNotFoundResponse({ description: 'Produto Not Found' })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiParam({ name: 'id', type: Number })
+  async readProduto(@Param() params: IdParams): Promise<Produto | ApiError> {
+    const result = await this.produtoService.find(params.id);
     return result;
   }
 
   @Post()
-  async createProduto(@Body() data: ProdutoDTO): Promise<Produto> {
+  @ApiCreatedResponse({ description: 'Created Produto' })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiBody({ type: CreateProdutoDTO })
+  async createProduto(
+    @Body() data: CreateProdutoDTO,
+  ): Promise<Produto | ApiError> {
     const result = await this.produtoService.create(data);
     return result;
   }
 
   @Put(':id')
+  @ApiOkResponse({ description: 'Updated Produto' })
+  @ApiNotFoundResponse({ description: 'Produto Not Found' })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiParam({ name: 'id', type: Number })
+  @ApiBody({ type: UpdateProdutoDTO })
   async updateProduto(
-    @Param('id') id: number,
-    @Body() data: Partial<ProdutoDTO>,
-  ) {
-    const result = await this.produtoService.update(id, data);
+    @Param() params: IdParams,
+    @Body() data: UpdateProdutoDTO,
+  ): Promise<Produto | ApiError> {
+    const result = await this.produtoService.update(params.id, data);
     return result;
   }
 
   @Delete(':id')
-  async deleteProduto(@Param('id') id: number) {
-    const result = await this.produtoService.destroy(id);
+  @ApiOkResponse({ description: 'Deleted Produto' })
+  @ApiNotFoundResponse({ description: 'Produto Not Found' })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiParam({ name: 'id', type: Number })
+  async deleteProduto(
+    @Param() params: IdParams,
+  ): Promise<DeletedModel | ApiError> {
+    const result = await this.produtoService.delete(params.id);
     return result;
   }
 }

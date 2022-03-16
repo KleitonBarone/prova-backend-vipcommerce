@@ -35,5 +35,5 @@ export class Pedido {
       onDelete: 'CASCADE',
     },
   )
-  public produtoToPedido!: ProdutoToPedido[];
+  produtos: ProdutoToPedido[];
 }

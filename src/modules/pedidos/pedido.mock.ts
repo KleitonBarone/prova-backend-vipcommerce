@@ -1,4 +1,4 @@
-import { PedidoDTO } from './pedido.dto';
+import { CreatePedidoDTO, UpdatePedidoDTO } from './pedido.dto';
 import { Pedido } from './pedido.entity';
 
 export const mockFindAll: Pedido[] = [
@@ -14,12 +14,16 @@ export const mockFindAll: Pedido[] = [
       sexo: 'masculino',
       email: 'teste1@teste.com',
     },
-    produtoToPedido: [
+    produtos: [
       {
-        produtoToPedidoId: 2,
-        produtoId: 1,
-        pedidoId: 1,
         qtd: 3,
+        produto: {
+          codigo_produto: 1,
+          nome: 'teste1',
+          cor: 'teste1',
+          tamanho: 'teste1',
+          valor: 10,
+        },
       },
     ],
   },
@@ -37,17 +41,21 @@ export const mockFindOne: Pedido = {
     sexo: 'masculino',
     email: 'teste1@teste.com',
   },
-  produtoToPedido: [
+  produtos: [
     {
-      produtoToPedidoId: 2,
-      produtoId: 1,
-      pedidoId: 1,
       qtd: 3,
+      produto: {
+        codigo_produto: 1,
+        nome: 'teste1',
+        cor: 'teste1',
+        tamanho: 'teste1',
+        valor: 10,
+      },
     },
   ],
 };
 
-export const mockPedidoDTO: PedidoDTO = {
+export const mockPedidoDTO: CreatePedidoDTO = {
   codigo_pedido: 1,
   data: '10/02/2022',
   observacao: 'teste',
@@ -61,7 +69,7 @@ export const mockPedidoDTO: PedidoDTO = {
   ],
 };
 
-export const mockPedidoUpdateDTO: Partial<PedidoDTO> = {
+export const mockPedidoUpdateDTO: UpdatePedidoDTO = {
   data: '10/02/2022',
   observacao: 'teste',
   forma_pagamento: 'dinheiro',
@@ -80,16 +88,29 @@ export const mockCreatedPedido: Pedido = {
     sexo: 'masculino',
     email: 'teste1@teste.com',
   },
-  produtoToPedido: [
+  produtos: [
     {
-      produtoToPedidoId: 2,
-      produtoId: 1,
-      pedidoId: 1,
       qtd: 3,
+      produto: {
+        codigo_produto: 1,
+        nome: 'teste1',
+        cor: 'teste1',
+        tamanho: 'teste1',
+        valor: 10,
+      },
     },
   ],
 };
 
 export const mockDeletedResult = {
   deleted: true,
+};
+
+export const mockPedidoRepository = {
+  find: () => mockFindAll,
+  findOne: () => mockFindOne,
+  create: () => mockCreatedPedido,
+  save: () => mockCreatedPedido,
+  update: () => mockFindOne,
+  delete: () => mockDeletedResult,
 };
